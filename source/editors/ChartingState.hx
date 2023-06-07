@@ -2181,7 +2181,7 @@ class ChartingState extends MusicBeatState
 			else selectionArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
 			if (FlxG.keys.pressed.ALT) {
 				final quantizationFactor =  Math.floor(4 /quants[curQuant]);
-				selectionArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / quantizationFactor)) * (GRID_SIZE / quantizationFactor);
+				selectionArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / quantizationFactor * 4)) * (GRID_SIZE / quantizationFactor * 4);
 			}
 			//trace(Math.floor(FlxG.mouse.x / GRID_SIZE) % Note.ammo[_song.options.mania]);
 			selectionArrow.noteData = (Math.floor(FlxG.mouse.x / GRID_SIZE) - 1) % Note.ammo[_song.options.mania];
