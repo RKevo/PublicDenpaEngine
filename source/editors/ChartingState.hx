@@ -537,9 +537,11 @@ class ChartingState extends MusicBeatState
 		zoomTxt.active = false;
 		add(zoomTxt);
 
-		quantText = new FlxText(10, (ClientPrefs.settings.get("showFPS")) ? 20 + 40 : 10 + 40, 0, "Snapping: 1/" 
-			+ Math.floor(4/quants[curQuant]) , 16 );
-		
+		quantText = new FlxText(10, (ClientPrefs.settings.get("showFPS")) ? 20 + 20 : 10 + 20 , 0, "Snapping: 1/" 
+			+ Math.floor(4/quants[curQuant]) , 16);
+		quantText.scrollFactor.set();
+		quantText.active = false;
+
 		add(quantText);
 
 		updateGrid();
@@ -2178,7 +2180,8 @@ class ChartingState extends MusicBeatState
 			if (FlxG.keys.pressed.SHIFT) selectionArrow.y = FlxG.mouse.y;
 			else selectionArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
 			if (FlxG.keys.pressed.ALT) {
-				selectionArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE / Math.floor(4 /quants[curQuant]);
+				final quantizationFactor =  Math.floor(4 /quants[curQuant]);
+				selectionArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / quantizationFactor)) * (GRID_SIZE / quantizationFactor);
 			}
 			//trace(Math.floor(FlxG.mouse.x / GRID_SIZE) % Note.ammo[_song.options.mania]);
 			selectionArrow.noteData = (Math.floor(FlxG.mouse.x / GRID_SIZE) - 1) % Note.ammo[_song.options.mania];
