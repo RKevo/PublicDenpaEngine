@@ -32,9 +32,9 @@
 	
 	<!-- DENPA ENGINE CUSTOMIZATION -->
 	<section if="desktop">
-		<!-- <define name="MODS_ALLOWED" />  COMMENT OUT TO DISABLE MODS -->
-		<!-- <define name="LUA_ALLOWED" if="cpp"/>  COMMENT OUT TO DISABLE LUA -->
-		<!-- <define name="HSCRIPT_ALLOWED" />  COMMENT OUT TO DISABLE HSCRIPT -->
+		<define name="MODS_ALLOWED" /> <!-- COMMENT OUT TO DISABLE MODS -->
+		<define name="LUA_ALLOWED" if="cpp"/> <!-- COMMENT OUT TO DISABLE LUA -->
+		<define name="HSCRIPT_ALLOWED" /> <!-- COMMENT OUT TO DISABLE HSCRIPT -->
 	</section>
 
 	<define name="VIDEOS_ALLOWED" if="desktop || web" unless="32bits"/> <!-- COMMENT OUT TO DISABLE VIDEOS -->

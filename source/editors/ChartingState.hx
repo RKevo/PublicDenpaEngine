@@ -540,6 +540,8 @@ class ChartingState extends MusicBeatState
 		quantText = new FlxText(10, (ClientPrefs.settings.get("showFPS")) ? 20 + 40 : 10 + 40, 0, "Snapping: 1/" 
 			+ Math.floor(4/quants[curQuant]) , 16 );
 		
+		add(quantText);
+
 		updateGrid();
 
 		autoSaveTxt = new FlxSprite(10, FlxG.height - 58).loadGraphic(Paths.image('saving'));
