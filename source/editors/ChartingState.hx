@@ -237,10 +237,29 @@ class ChartingState extends MusicBeatState
 		2,//half
 		4/3,
 		1,
-		4/8//eight
+		4/8, //eight
+		// The good stuff
+		4/5,
+		4/6,
+		4/7,
+		4/9,
+		4/10,
+		4/11,
+		4/12,
+		4/13,
+		4/14,
+		4/15,
+		4/16,
+		4/17,
+		4/18,
+		4/19,
+		4/20,
+		4/21
 	];
 
 	public static var curQuant = 0;
+	public var quantText: FlxText;
+
 	public static var vortex:Bool = false;
 	var autoSaveTimer:FlxTimer;
 	var autoSaveTxt:FlxSprite;
@@ -517,6 +536,9 @@ class ChartingState extends MusicBeatState
 		zoomTxt.scrollFactor.set();
 		zoomTxt.active = false;
 		add(zoomTxt);
+
+		quantText = new FlxText(10, (ClientPrefs.settings.get("showFPS")) ? 20 + 40 : 10 + 40, 0, "Snapping: 1/" 
+			+ Math.floor(4/quants[curQuant]) , 16 );
 		
 		updateGrid();
 
@@ -2153,6 +2175,9 @@ class ChartingState extends MusicBeatState
 			selectionArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
 			if (FlxG.keys.pressed.SHIFT) selectionArrow.y = FlxG.mouse.y;
 			else selectionArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+			if (FlxG.keys.pressed.ALT) {
+				selectionArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE / Math.floor(4 /quants[curQuant]);
+			}
 			//trace(Math.floor(FlxG.mouse.x / GRID_SIZE) % Note.ammo[_song.options.mania]);
 			selectionArrow.noteData = (Math.floor(FlxG.mouse.x / GRID_SIZE) - 1) % Note.ammo[_song.options.mania];
 			if (selectionArrow.noteData < 0) {
@@ -2415,7 +2440,8 @@ class ChartingState extends MusicBeatState
 						curQuant ++;
 						if (curQuant > quants.length-1) curQuant = quants.length-1;
 						daquantspot *=  Std.int(32/quants[curQuant]);
-						quant.animation.play('q', true, false, curQuant);
+						quant.animation.play('q', true, false, ((curQuant + 1) % 5) - 1);
+						updateQuantText();
 					}
 				}
 			case LEFT:
@@ -2434,7 +2460,8 @@ class ChartingState extends MusicBeatState
 						--curQuant;
 						if (curQuant < 0) curQuant = 0;	
 						daquantspot *=  Std.int(32/quants[curQuant]);
-						quant.animation.play('q', true, false, curQuant);
+						quant.animation.play('q', true, false, ((curQuant + 1) % 5) - 1);
+						updateQuantText();
 					}
 				}
 			case D:
@@ -2495,7 +2522,14 @@ class ChartingState extends MusicBeatState
 		if (FlxG.mouse.wheel != 0)
 		{
 			FlxG.sound.music.pause();
-			FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet*0.8);
+			if (FlxG.sound.music!=null) {
+				if (FlxG.keys.pressed.ALT)
+				{
+					vortexSnap(FlxG.mouse.wheel > 0);
+				} else {
+					FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet*0.8);
+				}
+			}
 			if(vocals != null) {
 				vocals.pause();
 				vocals.time = FlxG.sound.music.time;
@@ -2548,6 +2582,10 @@ class ChartingState extends MusicBeatState
 			zoomTxt.text = 'Zoom: ' + zoomList[curZoom] + 'x';
 		}
 		reloadGridLayer();
+	}
+
+	function updateQuantText() {
+		quantText.text = "Snapping: 1/" + Math.floor(4/quants[curQuant]);
 	}
 
 	function loadAudioBuffer() {
